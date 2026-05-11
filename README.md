@@ -1,38 +1,90 @@
-# Streamlit Finance App
+# Coupang Finance System
 
-启动：
+A Streamlit-based finance reconciliation and auditing system for e-commerce operations.
+
+## Overview
+
+This project contains the source code for the finance system currently used behind `/finance/`.
+It is designed to help with financial reconciliation, auditing workflows, and operational checks.
+
+## Tech Stack
+
+- Python
+- Streamlit
+- Nginx reverse proxy (deployment-side)
+
+## Run Locally
+
+Install dependencies:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Start the app:
 
 ```bash
 streamlit run app.py --server.port 8501 --server.address 127.0.0.1
 ```
 
-由 Nginx 反向代理到外部访问。
+If you want the same path behavior as production, you can run with:
 
-样本回归检查：
+```bash
+streamlit run app.py --server.port 8501 --server.address 127.0.0.1 --server.baseUrlPath finance
+```
+
+## Regression Check
+
+Run the regression check script:
 
 ```bash
 .venv/bin/python tools/regression_check.py
 ```
 
-输出包含两层：
-- `structure`：字段识别结果
-- `behavior`：数值列通过率、关键字段是否齐全
-- `verdict`：是否通过最小回归门槛
+The output includes:
 
-当前内置样本目录：`/opt/shuju`
+- `structure`: field recognition results
+- `behavior`: numeric-column pass rate and key field completeness
+- `verdict`: whether the minimum regression gate passed
 
-## 版本与回退
+Current built-in sample directory:
 
-创建备份：
+```text
+/opt/shuju
+```
+
+## Backup and Rollback
+
+Create a backup:
 
 ```bash
 bash tools/create_backup.sh
 ```
 
-回退到指定备份：
+Rollback to a specific backup:
 
 ```bash
 bash tools/rollback.sh backup-YYYYMMDD-HHMMSS
 ```
 
-本次操作前备份：`/root/.openclaw/workspace/backups/streamlit-finance/backup-20260418-111334`
+## Project Structure
+
+```text
+.
+├── app.py
+├── requirements.txt
+├── VERSION.txt
+├── tools/
+│   ├── create_backup.sh
+│   ├── regression_check.py
+│   └── rollback.sh
+└── README.md
+```
+
+## Notes
+
+- Python virtual environments such as `.venv/` are intentionally excluded from version control.
+- Temporary caches and compiled Python files are also excluded.
+- Local backup artifacts should not be committed to the repository.
